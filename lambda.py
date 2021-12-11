@@ -53,16 +53,14 @@ def lambda_handler(event, context):
     response = runtime.invoke_endpoint(EndpointName=ENDPOINT,
                                     ContentType='image/png',
                                     Body=image) ## TODO: fill in
-    print(response)
     # For this model the IdentitySerializer needs to be "image/png"
     #predictor.serializer = IdentitySerializer("image/png")
 
     # Make a prediction:
     inferences = json.loads(response['Body'].read().decode())
-    print(inferences)
 
     # We return the data back to the Step Function
-    event["inferences"] = inferences.decode('utf-8')
+    event["inferences"] = inferences
     return {
         'statusCode': 200,
         'body': json.dumps(event)
